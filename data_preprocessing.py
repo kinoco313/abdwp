@@ -17,14 +17,14 @@ lahmanデータセットを作成する
 - duckdbの練習
 """
 
-lahman_parh = Path("./Lahman")
+lahman_path = Path("./Lahman")
 lahman_csv_path = Path("./lahman_1871-2023_csv")
 
 
 def main():
     # Lahman_parquetディレクトリを作成
     try:
-        lahman_parh.mkdir()
+        lahman_path.mkdir()
     except FileExistsError as e:
         print("Lahmanディレクトリは既に存在します", e)
 
@@ -34,7 +34,7 @@ def main():
             tmp = duckdb.read_csv(csv_file)
             # 読み込んだcsvファイルをparquetに変換
             parquet_path = Path(csv_file.stem + ".parquet")
-            output_path = lahman_parh.name / parquet_path
+            output_path = lahman_path / parquet_path
 
             # parquetファイルをLahman_parquetディレクトリに格納する
             tmp.write_parquet(str(output_path))
