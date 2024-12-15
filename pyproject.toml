@@ -5,7 +5,8 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
-    "ibis-framework>=9.5.0",
+    "duckdb>=1.1.3",
     "jupyterlab>=4.3.3",
+    "pandas>=2.2.3",
     "ruff>=0.8.3",
 ]
