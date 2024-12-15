@@ -1,5 +1,5 @@
 from pathlib import Path
-import ibis
+import duckdb
 
 """
 # やること
@@ -12,13 +12,14 @@ lahmanデータセットを作成する
 4. parquetファイルをLahman_parquetディレクトリに格納する
 
 # 目的
-- csvファイルだと大きすぎるので, parquetファイルに変換する
-- pathlibモジュールの練習
-- ibisライブラリの練習
+- csvファイルだと大きくて遅いので, parquetファイルに変換する
+- pathlibの練習
+- duckdbの練習
 """
 
 lahman_parh = Path("./Lahman")
 lahman_csv_path = Path("./lahman_1871-2023_csv")
+
 
 def main():
     # Lahman_parquetディレクトリを作成
@@ -26,22 +27,20 @@ def main():
         lahman_parh.mkdir()
     except FileExistsError as e:
         print("Lahmanディレクトリは既に存在します", e)
-    
+
     # lahman_1871-2023_csvディレクトリにあるcsvファイルを読み込む
     try:
         for csv_file in lahman_csv_path.iterdir():
-            tmp = ibis.read_csv(csv_file.name)
-            
+            tmp = duckdb.read_csv(csv_file)
             # 読み込んだcsvファイルをparquetに変換
-            output_path = lahman_parh / csv_file.stem + ".parquet"
-            
+            parquet_path = Path(csv_file.stem + ".parquet")
+            output_path = lahman_parh.name / parquet_path
+
             # parquetファイルをLahman_parquetディレクトリに格納する
-            tmp.to_parquet(output_path)
+            tmp.write_parquet(str(output_path))
     except FileNotFoundError as e:
         print("ファイルまたはディレクトリが存在しません", e)
-    
+
+
 if __name__ == "__main__":
     main()
-    
-
-    
